@@ -4,6 +4,8 @@
 
 Simulated a **4 Ω, 10 W speaker** as a resistive load in LTspice. The circuit was evaluated using a **24 V supply** and a **1 kHz input signal at 1.2 Vpp**.
 
+![schematic](images/Class-D-Audio-Amplifier-Schematic.png)
+
 ## Simulation Results
 
 | Parameter | Simulated Result |
@@ -16,14 +18,14 @@ Simulated a **4 Ω, 10 W speaker** as a resistive load in LTspice. The circuit w
 | Useful audio efficiency | 20.46% |
 | Total load dissipation, including DC | 39.05 W |
 
-![Project Preview](images/project.png)
-![Alternative text](path/to/image.png)
+
+![wave forms](![schematic](images/waveforms.png))
 
 ## Critical Finding: Excessive DC Offset
 
 The simulated output has a **DC offset of 11.07 V**, which causes approximately **30.63 W of additional heating** in the 4 Ω load.
 
-The total load dissipation is therefore:
+The total load dissipation is therefore.
 
 - Useful audio power: **8.42 W**
 - DC-related heating: **30.63 W**
