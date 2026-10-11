@@ -1,0 +1,26 @@
+LTspice 26.1.1 for Windows
+Circuit: C:\LTspice-Codex\ltspice\class_d_image_trial.cir
+Start Time: Sun Oct 11 11:29:19 2026
+Options:plotwinsize=0
+solver = Normal
+Maximum thread count: 12
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 16.141 seconds.
+Total iterations: 5588640
+
+Files loaded:
+C:\LTspice-Codex\ltspice\class_d_image_trial.cir
+
+output_dc: AVG(V(out))=11.3570428392 FROM 0.008 TO 0.012
+output_rms: RMS(V(out))=12.8160416203 FROM 0.008 TO 0.012
+total_load_power: AVG(V(out)*I(Rload))=20.5313653517 FROM 0.008 TO 0.012
+output_min: MIN(V(out))=2.90502405167 FROM 0.008 TO 0.012
+output_max: MAX(V(out))=19.8695220947 FROM 0.008 TO 0.012
+bootstrap_min: MIN(V(vb,vs))=12.274477005 FROM 0.008 TO 0.012
+audio_sin: INTEG(V(demod_sin))=0.0167920450678 FROM 0.008 TO 0.012
+audio_cos: INTEG(V(demod_cos))=-0.00036146484124 FROM 0.008 TO 0.012
+fundamental_peak: 2*sqrt(audio_sin**2+audio_cos**2)/0.004=8.3979675278
+audio_power: fundamental_peak**2/(2*8)=4.40786616238

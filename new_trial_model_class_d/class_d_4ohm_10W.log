@@ -1,0 +1,43 @@
+LTspice 26.1.1 for Windows
+Circuit: C:\LTspice-Codex\ltspice\class_d_4ohm_10W.cir
+Start Time: Sun Oct 11 11:34:17 2026
+Options:plotwinsize=0
+solver = Normal
+Maximum thread count: 12
+tnom = 27
+temp = 27
+method = trap
+Direct Newton iteration succeeded in finding operating point.
+Total elapsed time: 13.243 seconds.
+Total iterations: 5530915
+
+Files loaded:
+C:\LTspice-Codex\ltspice\class_d_4ohm_10W.cir
+
+output_dc: AVG(V(out))=11.06826715 FROM 0.008 TO 0.012
+output_rms: RMS(V(out))=12.4983574632 FROM 0.008 TO 0.012
+total_load_power: AVG(V(out)*I(Rload))=39.0522348195 FROM 0.008 TO 0.012
+output_min: MIN(V(out))=2.79499197006 FROM 0.008 TO 0.012
+output_max: MAX(V(out))=19.37241745 FROM 0.008 TO 0.012
+bootstrap_min: MIN(V(vb,vs))=12.5100021362 FROM 0.008 TO 0.012
+audio_sin: INTEG(V(demod_sin))=0.0164053811417 FROM 0.008 TO 0.012
+audio_cos: INTEG(V(demod_cos))=-0.000662830516104 FROM 0.008 TO 0.012
+fundamental_peak: 2*sqrt(audio_sin**2+audio_cos**2)/0.004=8.20938296551
+audio_power: fundamental_peak**2/(2*4)=8.4242460843
+bus_current_avg: AVG(-I(Vbus))=1.71525327705 FROM 0.008 TO 0.012
+bus_current_rms: RMS(I(Vbus))=2.60905937549 FROM 0.008 TO 0.012
+bus_current_peak: MAX(-I(Vbus))=6.77654600143 FROM 0.008 TO 0.012
+driver_current_avg: AVG(-I(Vdriver))=5.23941151082e-05 FROM 0.008 TO 0.012
+logic_current_avg: AVG(-I(Vlogic))=0 FROM 0.008 TO 0.012
+bus_power: 24*bus_current_avg=41.1660786492
+modeled_input_power: bus_power+12*driver_current_avg+5*logic_current_avg=41.1667073786
+output_pp: output_max-output_min=16.5774254799
+fundamental_pp: 2*fundamental_peak=16.418765931
+voltage_gain: fundamental_peak/0.6=13.6823049425
+gain_db: 20*ln(fundamental_peak/0.6)/ln(10)=22.7231853095
+audio_efficiency_percent: 100*audio_power/modeled_input_power=20.4637354327
+load_efficiency_percent: 100*total_load_power/modeled_input_power=94.8636344907
+dc_load_power: output_dc**2/4=30.6266344258
+ac_load_power: total_load_power-dc_load_power=8.42560039374
+speaker_current_rms: RMS(I(Rload))=3.1245893658 FROM 0.008 TO 0.012
+speaker_current_dc: AVG(I(Rload))=2.76706678749 FROM 0.008 TO 0.012

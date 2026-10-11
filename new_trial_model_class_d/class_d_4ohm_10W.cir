@@ -1,0 +1,71 @@
+Class D image trial - behavioral control, approximate power devices
+* Image: NE555 -> LM358 PWM -> IR2110 -> IRF640 half bridge -> LC
+* Assumptions: VIN=24V, 4 ohm, 10 W rated speaker represented by resistive load, 1kHz input, 0.6V peak.
+* Missing bootstrap values: C2=100nF, C3=10uF.
+* 555 timing R1=2.2k, C12=1n: frequency estimated 1/(2*ln(2)*R*C).
+* Triangle replaces curved 555 timing waveform; comparator/driver idealized.
+* MOSFET model below is an approximation, NOT a vendor IRF640 model.
+.param FS=327885 FIN=1k AMP=0.6
+Vbus vin 0 24
+Vlogic v5 0 5
+Vdriver v12 0 12
+Va audio 0 SINE(0 {AMP} {FIN})
+Boffset mod 0 V=2.5+V(audio)
+B555 carrier 0 V=5/3+(5/3)*(1-abs(2*(time*FS-floor(time*FS))-1))
+Bcompare pwm 0 V=if(V(mod)>V(carrier),5,0)
+* RC plus thresholds approximates break-before-make gate timing.
+Rtim pwm cmd 1k
+Ctim cmd 0 30p
+Dboot v12 vb Dfast
+C2 vb vs 100n
+C3 vb vs 10u IC=11.3
+BHO ho vs V=if(V(cmd)>4,limit(V(vb,vs),0,12),0)
+BLO lo 0 V=if(V(cmd)<1,12,0)
+R8 ho gh 10
+R9 lo gl 10
+D2 gh ho Dfast
+D3 gl lo Dfast
+M1 vin gh vs vs PowerApprox
+M2 vs gl 0 0 PowerApprox
+L1 vs out 26u Rser=0.05
+C11 out 0 1u
+Rload out 0 4
+.model Dfast D(Is=10n Rs=0.1 N=1.5 Cjo=20p Tt=50n)
+.model PowerApprox VDMOS(Vto=4 Kp=8 Rd=0.10 Rs=0.04 Rg=2 Cgdmax=400p Cgdmin=50p Cgs=1.2n Cjo=300p Is=1n Rb=0.1)
+.tran 0 12m 0 50n
+.options plotwinsize=0
+.save I(Vbus) I(Vdriver) I(Vlogic) V(demod_sin) V(demod_cos) V(audio) V(mod) V(carrier) V(pwm) V(vs) V(out) V(gh,vs) V(gl) V(vb,vs) I(Rload)
+.meas tran output_dc AVG V(out) FROM 8m TO 12m
+.meas tran output_rms RMS V(out) FROM 8m TO 12m
+.meas tran total_load_power AVG (V(out)*I(Rload)) FROM 8m TO 12m
+.meas tran output_min MIN V(out) FROM 8m TO 12m
+.meas tran output_max MAX V(out) FROM 8m TO 12m
+.meas tran bootstrap_min MIN V(vb,vs) FROM 8m TO 12m
+Bsin demod_sin 0 V=V(out)*sin(2*pi*FIN*time)
+Bcos demod_cos 0 V=V(out)*cos(2*pi*FIN*time)
+.meas tran audio_sin INTEG V(demod_sin) FROM 8m TO 12m
+.meas tran audio_cos INTEG V(demod_cos) FROM 8m TO 12m
+.meas tran fundamental_peak PARAM 2*sqrt(audio_sin**2+audio_cos**2)/0.004
+.meas tran audio_power PARAM fundamental_peak**2/(2*4)
+.meas tran bus_current_avg AVG (-I(Vbus)) FROM 8m TO 12m
+.meas tran bus_current_rms RMS I(Vbus) FROM 8m TO 12m
+.meas tran bus_current_peak MAX (-I(Vbus)) FROM 8m TO 12m
+.meas tran driver_current_avg AVG (-I(Vdriver)) FROM 8m TO 12m
+.meas tran logic_current_avg AVG (-I(Vlogic)) FROM 8m TO 12m
+.meas tran bus_power PARAM 24*bus_current_avg
+.meas tran modeled_input_power PARAM bus_power+12*driver_current_avg+5*logic_current_avg
+.meas tran output_pp PARAM output_max-output_min
+.meas tran fundamental_pp PARAM 2*fundamental_peak
+.meas tran voltage_gain PARAM fundamental_peak/0.6
+.meas tran gain_db PARAM 20*ln(fundamental_peak/0.6)/ln(10)
+.meas tran audio_efficiency_percent PARAM 100*audio_power/modeled_input_power
+.meas tran load_efficiency_percent PARAM 100*total_load_power/modeled_input_power
+.meas tran dc_load_power PARAM output_dc**2/4
+.meas tran ac_load_power PARAM total_load_power-dc_load_power
+.meas tran speaker_current_rms RMS I(Rload) FROM 8m TO 12m
+.meas tran speaker_current_dc AVG I(Rload) FROM 8m TO 12m
+.end
+
+
+
+
