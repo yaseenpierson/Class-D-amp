@@ -19,7 +19,7 @@ Simulated a **4 Ω, 10 W speaker** as a resistive load in LTspice. The circuit w
 | Total load dissipation, including DC | 39.05 W |
 
 
-![wave forms](![schematic](images/waveforms.png))
+![wave forms](images/waveforms.png)
 
 ## Critical Finding: Excessive DC Offset
 
